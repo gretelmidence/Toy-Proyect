@@ -1,0 +1,80 @@
+/* /* .footer {
+  position: fixed;
+  bottom: 0;
+} */
+
+.product-view {
+  margin-top: 145px;
+}
+
+.MuiGrid-root.image-wrapper {
+  display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.product-view .image-wrapper img {
+  width: 95%;
+}
+
+.product-view .product-data {
+  background-color: #faf0e6;
+  background: linear-gradient(45deg,#f7e2e0,#c4ebe1);
+}
+
+.product-view .product-data h2 {
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-view .product-data h3 {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 300;
+}
+
+.product-view .box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.MuiContainer-root.product-view .custom-button {
+  color: #000;
+  background-color: #FF8E53;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.MuiContainer-root.product-view .custom-button:hover {
+  color: #c9d1d9;
+}
+.MuiContainer-root.product-view .custom-button svg {
+  margin-right: 10px;
+}
+
+.product-view .MuiGrid-root .MuiGrid-item {
+  padding: 5px 15px;
+}
+
+.product-store-box {
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-store-box .img {
+  display: flex;
+  object-fit: contain;
+  margin: 10px auto;
+}

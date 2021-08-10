@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Switch, Route } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
-import Products from "./containers/Products";
-import NavBar from "./containers/NavBar";
-import Footer from "./containers/Footer";
+import Products from "./components/Products";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 import Login from './authentication/Login';
 import SignUp from './authentication/SignUp';
-import ProductView from "./containers/ProductView";
-
+import ProductView from "./components/ProductView";
+import Basket from "./components/Basket";
 
 function App() {
   const [user, setUser] = useState(null);
   const [toggleForm, setToggleForm] = useState(true);
+  const [basketData, setBasketData] = useState({});
 
   const formMode = () => {
     setToggleForm(!toggleForm);
@@ -49,6 +50,10 @@ function App() {
 
           <Route exact path="/product-view/:gameID">
             <ProductView />
+          </Route>
+
+          <Route exact path="/basket">
+            <Basket />
           </Route>
 
         </Switch>

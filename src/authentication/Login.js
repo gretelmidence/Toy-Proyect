@@ -91,12 +91,10 @@ const Login = (props) => {
                                 value={password}
                                 validators={['required']}
                                 errorMessages={['this field is required']}
-                                autoComplete="off"
-                            />
+                                autoComplete="off"/>
                         <FormControlLabel
                             control={<Checkbox value={rememberme} onChange={(e) => handleCheck(e)}  color="primary" />}
-                            label="Remember me"
-                        />
+                            label="Remember me"/>
                         {loading ? (
                             <ScaleLoader
                             css={override}
@@ -108,8 +106,7 @@ const Login = (props) => {
                              type="submit"
                              fullWidth
                              variant="contained"
-                             className={classes.submit}
-                         >
+                             className={classes.submit}>
                              Sign In
                          </Button>
                         )}
