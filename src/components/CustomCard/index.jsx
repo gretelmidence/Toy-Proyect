@@ -1,17 +1,15 @@
-import {Card,CardMedia,CardContent,CardActions,Typography,CardActionArea,Button,} from "@material-ui/core";
-import { ShoppingCart } from "@material-ui/icons";
+import { Card, CardMedia, CardContent, CardActions, Typography, CardActionArea } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import "./style.css";
 
-const CustomCard = ({basket,product,addProduct,}) => {
+const CustomCard = ({ basket,product }) => {
   return (
     <Card className="custom-card">
       <Link to={`product-view/${product.gameID}`}>
         <CardActionArea>
           <CardMedia component="img" alt="Contemplative Reptile" height="260" className="card-image"
-            image={product?.thumb || "https://i.blogs.es/6c558d/luna-400mpx/1366_2000.jpg"}
-            title="Contemplative Reptile"
-          />
+            image={product?.thumb || "https://unsplash.com/photos/YDZPdqv3FcA"}
+            title="Contemplative Reptile"/>
           <CardContent className="content">
             <Typography className="title" gutterBottom variant="h5" component="h2">
               {product.external}
@@ -33,12 +31,7 @@ const CustomCard = ({basket,product,addProduct,}) => {
             <Typography className="price" gutterBottom variant="h5" component="h2">
               $ {product.cheapest}
             </Typography>
-            <Button size="large" className="custom-button"
-              onClick={() => {
-                addProduct(product.gameID);
-              }}>
-              <ShoppingCart /> Add to Library
-            </Button>
+            
           </>
         )}
         {/* {basket && (

@@ -1,8 +1,8 @@
-import './style.css'
-import { Grid, Button, Container, Typography } from '@material-ui/core';
-import axios from "axios";
 import { useState, useEffect } from 'react';
+import axios from "axios";
 import firebase from '../../helpers/db';
+import { Grid, Button, Container, Typography } from '@material-ui/core';
+import './style.css'
 
 const createMarkup = (text) => {
   return { __html: text };
@@ -12,19 +12,31 @@ const ProductView = () => {
   const [product, setProduct] = useState({});
   const [stores, setStores] = useState([]);
 
+  const addGameToLibrary = async (productId, storeId) => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    var dbDataRef = firebase.database().ref(`/games/${user.userId}/${storeId}`);
+    let dbData = await dbDataRef.get('/${user.userId}');
+    dbData = dbData.toJSON();
+    let game = [];
+    if (dbData && dbData[productId]) {
+      game[productId] = dbData[productId] += 1;
+      dbDataRef.set({
+        ...game,
+        ...dbData
+      });
+    } else if(dbData) {
+      game[productId] = 1;
+      dbDataRef.set({
+        ...game,
+        ...dbData
+      });
+    } else {
+      game[productId] = 1;
+      dbDataRef.set(game);
+    }
+  }
+
   const fetchData = async (productId) => {
-    const user = JSON.parse(localStorage.getItem('user'))
-    var tutorialsRef = firebase.database().ref(`/todos/${user.userId}`);
-    let x = await tutorialsRef.get('/games')
-    x = x.toJSON()
-      tutorialsRef.set({
-        games: {
-          ...x.games,
-          devilMayCry: 1,
-        }
-      })
-    
-    console.log(user)
     const response = await axios
       .get(`https://www.cheapshark.com/api/1.0/games?id=${productId}`)
       .catch(err => {
@@ -57,33 +69,9 @@ const ProductView = () => {
   useEffect(() => {
   }, [product]);
 
-  // useEffect(() => {
-  //   // mergeProductDetails();
-  // }, [stores]);
-
-  // const mergeProductDetails = () => {
-  //   if (product && product.deals) {
-  //     {
-  //       product.deals.map((x) => {
-  //         {
-  //           Object.values(stores).map((y) => {
-  //             if (x.storeID === y.storeID) {
-  //               Object.assign(x, y)
-  //             }
-  //           }
-  //           )
-  //         };
-  //       }
-  //       )
-  //     };
-  //   }
-  //   console.log("productproduct:", product)
-  // }
-
   const storeDetailData = () => {
     const displayStores = product?.deals ? product.deals.map(store => {
       const currentStore = stores.find(element => element.storeID === store.storeID);
-      console.log(currentStore);
       const currentStoreImg = currentStore?.images ? "https://img.icons8.com/dusk/64/000000/online-store.png" : "https://img.icons8.com/64/000000/controller.png";
       return {
         ...store,
@@ -102,7 +90,11 @@ const ProductView = () => {
             <Typography>Price: $ {store.price}</Typography>
             <Typography>Retail Price: $ {store.retailPrice}</Typography>
             <Typography>Savings: $ {parseFloat(store.savings).toFixed(2)}</Typography>
-            <Button size="large" className="custom-button">Add to Library</Button>
+            <Button size="large" className="custom-button"
+              onClick={() => {
+                addGameToLibrary(product.gameID, store.storeID);
+              }}
+            >Add to Library</Button>
           </Grid>
         )
       })
@@ -121,7 +113,7 @@ const ProductView = () => {
             <Typography variant="h2">{product.external}
             </Typography>
             <Typography
-              variant="p"
+              variant="subtitle1"
               dangerouslySetInnerHTML={createMarkup(product.info)}
             />
             <Typography variant="h2"><strong>{product.title}</strong></Typography>
@@ -137,24 +129,3 @@ const ProductView = () => {
 }
 
 export default ProductView;
-
-
-
-// {products && products.length ? (
-//   <Grid container spacing={2}>
-//     {Object.keys(products).map(
-//       (productId) => 
-//         products[productId].name.includes(filter) &&
-//         Products(productId)
-//     )}
-//   </Grid>
-// ) : (
-//   <Products/>
-// )}
-
-// import firebase from '../../helpers/db'
-
-// var tutorialsRef = firebase.database().ref("/adsad");
-// tutorialsRef.push({
-//   test: 'gigugkugjhgkgjk'
-// })

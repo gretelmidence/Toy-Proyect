@@ -1,15 +1,12 @@
-import {Container,AppBar, Toolbar,IconButton,Badge,Typography, Button,Icon,} from "@material-ui/core";
-import { ShoppingCart } from "@material-ui/icons";
-import { Link, useLocation,Route, Redirect, Switch } from "react-router-dom";
+import { React, useState } from 'react';
+import { Container, AppBar, Toolbar, IconButton, Badge, Typography, Menu, MenuItem } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import "./style.css";
-import React from 'react';
-import {Menu, MenuItem} from '@material-ui/core';
-import {AccountCircle} from '@material-ui/icons';
-import {useState} from 'react';
 
 const NavBar = (props) => {
-  const { library, totalCost, setUserState} = props;
-  const location = useLocation();
+  const { setUserState} = props;
   const [auth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -48,41 +45,29 @@ const NavBar = (props) => {
                 <div>
                   <IconButton aria-label="account of current user" aria-controls="menu-appbar" aria-haspopup="true"
                     onClick={handleMenu} color="inherit">
-                    <AccountCircle />
+                    <ExitToAppIcon />
                     </IconButton>
                     <Menu
                       id="menu-appbar" anchorEl={anchorEl}
-                      anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                      }}
+                      anchorOrigin={{vertical: 'top',horizontal: 'right',}}
                       keepMounted
-                      transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                      }}
+                      transformOrigin={{vertical: 'top',horizontal: 'right',}}
                       open={open}
                       onClose={handleClose}>
-                    
                       <MenuItem onClick={handleClose}>Logout</MenuItem>
                     </Menu>
-                  </div>
+                </div>
                 )}
               <div className="basket-wrapper">
-                  <IconButton
-                    component={Link}
-                    to="/basket"
+                  <IconButton component={Link} to="/basket"
                     aria-label="Show basket contents"
-                    color="inherit"
-                  >
-                    <Badge badgeContent="1" color="secondary">
-                      <ShoppingCart className="custom-basket" 
-                      onClick={() => {
-                        refreshPage("/basket");
-                      }}/>
+                    color="inherit">
+                    <Badge badgeContent="0" color="secondary">
+                      <BookmarksIcon className="custom-basket" 
+                      onClick={() => {refreshPage("/basket");}}/>
                     </Badge>
                   </IconButton>
-                </div>
+              </div>
                 
             </div>
           </Toolbar>

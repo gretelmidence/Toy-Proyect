@@ -43,6 +43,8 @@ const SignUp = (props) => {
                     case 'auth/weak-password':
                         toast.error(error.message);
                         break;
+                    default:
+                        break;
                 }
             });
     }

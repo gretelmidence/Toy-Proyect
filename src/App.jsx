@@ -12,7 +12,6 @@ import Basket from "./components/Basket";
 function App() {
   const [user, setUser] = useState(null);
   const [toggleForm, setToggleForm] = useState(true);
-  const [basketData, setBasketData] = useState({});
 
   const formMode = () => {
     setToggleForm(!toggleForm);
