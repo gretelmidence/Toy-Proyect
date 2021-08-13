@@ -1,14 +1,16 @@
-import { React, useState } from 'react';
+import { React, useState,useEffect } from 'react';
 import { Container, AppBar, Toolbar, IconButton, Badge, Typography, Menu, MenuItem } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import "./style.css";
+import firebase from '../../helpers/db';
 
 const NavBar = (props) => {
   const { setUserState} = props;
   const [auth] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [quantity, setQuantity] = useState(0);
   const open = Boolean(anchorEl);
 
   const handleClose = () => {
@@ -26,6 +28,26 @@ const NavBar = (props) => {
   const refreshPage = (path) => {
     window.location.href = path;
   };
+
+  const getBadgeData = async () => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    var dbDataRef = firebase.database().ref(`/games/${user.userId}`);
+    let dbData = await dbDataRef.get('/${user.userId}');
+    dbData = dbData.toJSON();
+    let counter = 0; 
+    Object.keys(dbData).forEach((store) => {
+      const storeGames = dbData[store];
+      Object.values(storeGames).forEach((value, key) => {
+        counter = counter + value;
+      })
+    })
+
+    setQuantity(counter);
+  };
+
+  useEffect(() => {
+    getBadgeData()
+  }, []);
 
   return (
     <>
@@ -47,8 +69,7 @@ const NavBar = (props) => {
                     onClick={handleMenu} color="inherit">
                     <ExitToAppIcon />
                     </IconButton>
-                    <Menu
-                      id="menu-appbar" anchorEl={anchorEl}
+                    <Menu anchorEl={anchorEl}
                       anchorOrigin={{vertical: 'top',horizontal: 'right',}}
                       keepMounted
                       transformOrigin={{vertical: 'top',horizontal: 'right',}}
@@ -62,13 +83,13 @@ const NavBar = (props) => {
                   <IconButton component={Link} to="/basket"
                     aria-label="Show basket contents"
                     color="inherit">
-                    <Badge badgeContent="0" color="secondary">
+                    <Badge badgeContent={quantity}
+                      color="secondary">
                       <BookmarksIcon className="custom-basket" 
                       onClick={() => {refreshPage("/basket");}}/>
                     </Badge>
                   </IconButton>
               </div>
-                
             </div>
           </Toolbar>
         </Container>
@@ -76,6 +97,5 @@ const NavBar = (props) => {
     </>
   );
 };
-
 
 export default NavBar;
